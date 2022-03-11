@@ -12,24 +12,63 @@ $ npm install
 ```
 
 ## Requirements
-In this exercise, you are required to implement the same functionality as the [Soft Play](https://github.com/boolean-uk/js-softplay) exercise, but using a class inside the `src/soft-play-oop.js` file. Your class should have the following methods:
- 
- * `enter(numChildren, numAdults)` - as defined in [Soft Play](https://github.com/boolean-uk/js-softplay#function-enternumchildren-numadults)
- * `leave(numChildren, numAdults)` - as defined in [Soft Play](https://github.com/boolean-uk/js-softplay#function-leavenumchildren-numadults)
- * `occupancy(numChildren, numAdults)` - as defined in [Soft Play](https://github.com/boolean-uk/js-softplay#function-occupancy)
+You need to write a program that **maintains counts** of both the number of children and adults inside a soft play center, using a class inside the `src/soft-play-oop.js` file. Your class should have the following methods:
 
-Your class should also contain `adult` and `children` counters as properties which are updated by your functions.
 
-## Tips
-Remember you can set up any initial state within the constructor:
-
-```javascript
-class Car {
-  constructor() {
-    this.mileage = 0
-  }
-}
+### SoftPlay#occupancy()
+This function should return an object with two keys - `adults` should contain the number of children currently inside the soft play center and `children` the number of children.
+```js
+//counts start at 0
+> softPlay.occupancy()
+{ adults: 0, children: 0 }
 ```
+
+### SoftPlay#enter(numAdults, numChildren)
+This function is used to register adults and children entering the soft play center. The function should check for the following conditions:
+
+* Every child entering the soft play center is accompanied by at least 1 adult.
+
+If any of these checks fail, the function should return `false`. Otherwise, the function should return `true` and `numAdults` and `numChildren` should be added to the current totals.
+
+```js
+//2 adults and 1 child enter
+> softPlay.enter(2, 1)
+true
+```
+```js
+//a child attempts to enter on their own, enter returns false
+> softPlay.enter(0,1)  
+false
+```
+### SoftPlay#leave(numAdults, numChildren)
+This function is used to register adults and children leaving the soft play center. The function should check for the following conditions:
+
+* A child is not attempting to leave without an adult
+* The number of adults and children left inside the center will not cause there to be more children than adults (there must be at least 1 adult for 1 child inside the center at all times)
+* Every child leaving the soft play center is accompanied by at least 1 adult.
+* The number of adults and children attempting to leave is not greater than the number currently inside the center
+
+If any of these checks fail, function should return `false`. Otherwise, the function should return `true` and `numAdults` and `numChildren` should be deducted from the current totals.
+
+```js
+// eg, if count starts at: { adults: 2, children: 1 }
+//1 adult leaves
+> softPlay.leave(1, 0)
+true
+
+//Only 1 adult and 1 child remain
+> softPlay.occupancy()
+{ adults: 1, children: 1 }
+
+//the last adult attempts to leave so false is returned (as child would be on their own in soft play)
+> softPlay.leave(1,0)
+false
+
+//the last child and adult leave together
+> softPlay.leave(1,1)
+true
+```
+
 
 See [MDN Class Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
 
