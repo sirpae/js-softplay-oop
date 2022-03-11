@@ -16,7 +16,7 @@ You need to write a program that **maintains counts** of both the number of chil
 
 
 ### SoftPlay#occupancy()
-This function should return an object with two keys - `adults` should contain the number of children currently inside the soft play center and `children` the number of children.
+This function should return an object with two keys - `adults` should contain the number of adults currently inside the soft play center and `children` the number of children.
 ```js
 //counts start at 0
 > softPlay.occupancy()
